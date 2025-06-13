@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Sensor Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Live Temperature & Humidity</h1>
+  <canvas id="sensorChart" width="600" height="300"></canvas>
+  <p id="timestamp"></p>
+
+  <script>
+    let chart;
+
+    async function fetchLatest() {
+      const response = await fetch('/latest-data/');
+      const data = await response.json();
+      return data;
+    }
+
+    async function updateChart() {
+      const data = await fetchLatest();
+
+      const timestamp = new Date(data.timestamp).toLocaleTimeString();
+
+      // Initialize chart if it doesn't exist
+      if (!chart) {
+        const ctx = document.getElementById('sensorChart').getContext('2d');
+        chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: [timestamp],
+            datasets: [
+              {
+                label: 'Temperature (°C)',
+                data: [data.temperature],
+                borderColor: 'red',
+                fill: false,
+                yAxisID: 'y1'
+              },
+              {
+                label: 'Humidity (%)',
+                data: [data.humidity],
+                borderColor: 'blue',
+                fill: false,
+                yAxisID: 'y2'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            interaction: {
+              mode: 'index',
+              intersect: false
+            },
+            stacked: false,
+            scales: {
+              y1: {
+                type: 'linear',
+                position: 'left',
+                title: {
+                  display: true,
+                  text: 'Temperature (°C)'
+                }
+              },
+              y2: {
+                type: 'linear',
+                position: 'right',
+                title: {
+                  display: true,
+                  text: 'Humidity (%)'
+                },
+                grid: {
+                  drawOnChartArea: false
+                }
+              }
+            }
+          }
+        });
+      } else {
+        // Add new timestamp + values
+        chart.data.labels.push(timestamp);
+        chart.data.datasets[0].data.push(data.temperature);
+        chart.data.datasets[1].data.push(data.humidity);
+
+        // Keep only last 10 readings
+        if (chart.data.labels.length > 10) {
+          chart.data.labels.shift();
+          chart.data.datasets[0].data.shift();
+          chart.data.datasets[1].data.shift();
+        }
+
+        chart.update();
+      }
+
+      document.getElementById("timestamp").innerText = "Last updated: " + timestamp;
+    }
+
+    updateChart(); // first call
+    setInterval(updateChart, 5000); // update every 5 seconds
+  </script>
+</body>
+</html>

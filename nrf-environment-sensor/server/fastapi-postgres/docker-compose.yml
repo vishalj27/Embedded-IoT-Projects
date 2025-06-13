@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  postgres:
+    container_name: container-pg
+    image: postgres
+    hostname: postgres
+    ports:
+      - "5000:5432"
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: test_db
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    restart: unless-stopped
+  web:
+      build: .
+      container_name: fastapi-app
+      ports:
+        - "8000:8000"
+      environment:
+        DATABASE_URL: postgresql://admin:root@postgres:5432/test_db
+      depends_on:
+        - postgres
+      restart: unless-stopped
