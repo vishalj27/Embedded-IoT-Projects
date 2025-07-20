@@ -2,7 +2,7 @@
 
 A comprehensive IoT solution for monitoring temperature and humidity using BLE (Bluetooth Low Energy) communication and cloud data storage.
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
 ┌─────────────────┐    BLE Advertising   ┌─────────────────┐    HTTP POST    ┌─────────────────┐
@@ -17,7 +17,7 @@ A comprehensive IoT solution for monitoring temperature and humidity using BLE (
                                                                                └─────────────────┘
 ```
 
-## 📋 Components
+## Components
 
 ### 1. BLE Sensor Device (Bluefruit)
 - **Device Name**: E001
@@ -35,7 +35,7 @@ A comprehensive IoT solution for monitoring temperature and humidity using BLE (
 - **Database**: PostgreSQL for data storage
 - **Deployment**: Docker containerized setup
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Arduino IDE with Bluefruit library support
@@ -90,7 +90,7 @@ cd Server
 docker-compose up --build
 ```
 
-## 📊 Data Protocol
+## Data Protocol
 
 ### BLE Advertisement Data Format
 ```
@@ -115,7 +115,7 @@ Custom Data Packet Structure:
 }
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### BLE Sensor Configuration
 ```cpp
@@ -144,7 +144,7 @@ services:
 
 
 
-## 📝 API Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
