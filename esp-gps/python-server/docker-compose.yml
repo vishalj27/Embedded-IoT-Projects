@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  # postgres:
+    # container_name: container-pg
+    # image: postgres
+    # hostname: postgres
+    # ports:
+    #   - "5000:5432"
+    # expose:
+    #   - 5432
+    # environment:
+    #   POSTGRES_USER: admin
+    #   POSTGRES_PASSWORD: root
+    #   POSTGRES_DB: test_db
+    # volumes:
+    #   - D:/Vishal/IOT/test_pipeline/server/data:/var/lib/postgresql/data
+    # restart: unless-stopped
+  fastapi:
+    build: .
+    container_name: container-fastapi
+    # command: uvicorn main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:8000"
