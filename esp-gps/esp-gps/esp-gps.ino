@@ -22,9 +22,9 @@ TinyGPSPlus gps;
 
 #define GPS_BAUD 9600
 
-const char* ssid = "NCAIR IOT";
-const char* password = "Asim@123Tewari";
-const char* server_name = "https://10.185.151.167:3300/api/location/create";  // FastAPI server
+const char* ssid = "";
+const char* password = "";
+const char* server_name = "";  // FastAPI server
 
 String mac_address;
 
